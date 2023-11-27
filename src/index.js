@@ -1,8 +1,9 @@
 // import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import axios from 'axios';
-// import SlimSelect from 'slim-select';
-// import 'slim-select/dist/slimselect.css';
-console.log('чаокакао');
+// import SimpleLightbox from 'simplelightbox';
+// import 'simplelightbox/dist/simple-lightbox.min.css';
+
+console.log('чаокака');
 
 const refs = {
   form: document.querySelector('.search-form'),
@@ -29,8 +30,10 @@ async function imagesSabmit(evt) {
     const imagesApi = await serviceSearchImg(searchImg);
     console.log(imagesApi);
     const { hits } = imagesApi;
-    const qwe = hits[0].tags;
-    console.log(qwe);
+    // const qwe = hits[0].tags;
+    // console.log(qwe);
+    console.log(hits);
+    refs.containerImg.innerHTML = createMarkup(hits);
   } catch (err) {
     console.log(err);
   } finally {
@@ -68,15 +71,15 @@ function createMarkup(arr) {
       <img src="${webformatURL}" alt="${tags}" loading="lazy" />
       <div class="info">
         <p class="info-item">
-          <b>${likes}</b>
+          <b>Likes${likes}</b>
         </p>
-        <p class="info-item">
+        <p class="info-item">Views
           <b>${views}</b>
         </p>
-        <p class="info-item">
+        <p class="info-item">Comments
           <b>${comments}</b>
         </p>
-        <p class="info-item">
+        <p class="info-item">Downloads
           <b>${downloads}</b>
         </p>
       </div>
