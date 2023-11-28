@@ -16,6 +16,17 @@ body {
   --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   --animation-duration: 250ms;
 }
+.search-form {
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  background-color: rgb(201, 254, 254);
+}
+.search-form input,
+.search-btn {
+  border: 2px solid rgb(8, 79, 78);
+  border-radius: 5px;
+}
 
 .gallery {
   display: grid;
@@ -58,8 +69,8 @@ img {
 .load-more {
   background-color: aqua;
   color: #1c0a24;
-  margin-left: auto;
-  margin-right: auto;
+  /* margin-left: auto;
+  margin-right: auto; */
   border: 2px solid rgb(8, 79, 78);
   border-radius: 5px;
 }
