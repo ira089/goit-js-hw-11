@@ -1,7 +1,7 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import axios from 'axios';
-// import SimpleLightbox from 'simplelightbox';
-// import 'simplelightbox/dist/simple-lightbox.min.css';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
   form: document.querySelector('.search-form'),
@@ -17,10 +17,17 @@ let searchImg = '';
 refs.form.addEventListener('submit', imagesSabmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
+//======SimpleLightbox=====
+const settings = {
+  captionsData: 'alt',
+  captionDelay: 250,
+};
+let gallery = new SimpleLightbox('.gallery a', settings);
+
 // -----------функция сабмита--------
 async function imagesSabmit(evt) {
   evt.preventDefault();
-  // console.log(refs.endImg);
+  // console.log('qw');
   refs.loadMoreBtn.hidden = true;
   refs.endImg.classList.add('none-load-more');
   refs.totalImgs.classList.add('none-load-more');
@@ -30,7 +37,7 @@ async function imagesSabmit(evt) {
     Notify.failure('Sorry, enter text. Please try again.');
     return;
   }
-  // console.log(searchImg);
+  console.log(searchImg);
   try {
     const imagesApi = await serviceSearchImg(searchImg);
     const totalImg = imagesApi.totalHits;
@@ -45,6 +52,14 @@ async function imagesSabmit(evt) {
       );
     }
     refs.containerImg.innerHTML = createMarkup(hits);
+    gallery.refresh();
+
+    const { height: cardHeight } =
+      refs.containerImg.firstElementChild.getBoundingClientRect();
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
   } catch (err) {
     console.log(err);
   } finally {
@@ -65,7 +80,33 @@ async function serviceSearchImg(search) {
   return data;
 }
 
-// -----------функция разметки--------
+//------ функция добавить еще----------
+async function onLoadMore() {
+  try {
+    caunter += 1;
+    const imagesApi = await serviceSearchImg(searchImg);
+    const { hits } = imagesApi;
+    refs.containerImg.insertAdjacentHTML('beforeend', createMarkup(hits));
+    gallery.refresh();
+
+    const { height: cardHeight } =
+      refs.containerImg.firstElementChild.getBoundingClientRect();
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
+    // console.log(Math.ceil(imagesApi.totalHits / 40));
+    if (caunter === Math.ceil(imagesApi.totalHits / 40)) {
+      refs.loadMoreBtn.hidden = true;
+      refs.endImg.classList.remove('none-load-more');
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+  }
+}
+
+// -----------функция разметки-SimpleLightbox-------
 function createMarkup(arr) {
   return arr
     .map(
@@ -78,7 +119,7 @@ function createMarkup(arr) {
         comments,
         downloads,
       }) => `<div class="photo-card">
-      <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+      <a href="${largeImageURL}" class="gallery__link"><img src="${webformatURL}" alt="${tags}" loading="lazy"/></a> 
       <div class="info">
         <p class="info-item">
           <b>Likes</b><br/>${likes}
@@ -96,22 +137,4 @@ function createMarkup(arr) {
     </div>`
     )
     .join('');
-}
-
-//------ функция добавить еще----------
-async function onLoadMore() {
-  try {
-    caunter += 1;
-    const imagesApi = await serviceSearchImg(searchImg);
-    const { hits } = imagesApi;
-    refs.containerImg.insertAdjacentHTML('beforeend', createMarkup(hits));
-    // console.log(Math.ceil(imagesApi.totalHits / 40));
-    if (caunter === Math.ceil(imagesApi.totalHits / 40)) {
-      refs.loadMoreBtn.hidden = true;
-      refs.endImg.classList.remove('none-load-more');
-    }
-  } catch (err) {
-    console.log(err);
-  } finally {
-  }
 }

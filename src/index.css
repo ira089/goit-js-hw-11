@@ -5,17 +5,11 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   background-color: #fafafa;
   color: #212121;
   line-height: 1.5;
 }
 
-:root {
-  --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  --animation-duration: 250ms;
-}
 .search-form {
   margin-right: auto;
   margin-left: auto;
@@ -52,8 +46,12 @@ body {
 img {
   display: block;
   max-width: 100%;
-  flex-grow: 1;
+  /* flex-grow: 1;
+  object-fit: cover; */
+  height: 100%;
+  width: 100%;
   object-fit: cover;
+  transition: transform var(--animation-duration) var(--timing-function);
 }
 
 .photo-card .info {
@@ -69,8 +67,6 @@ img {
 .load-more {
   background-color: aqua;
   color: #1c0a24;
-  /* margin-left: auto;
-  margin-right: auto; */
   border: 2px solid rgb(8, 79, 78);
   border-radius: 5px;
 }
@@ -81,4 +77,17 @@ img {
 
 .none-load-more {
   display: none;
+}
+img:hover {
+  transform: scale(1.03);
+}
+
+.gallery__link {
+  display: block;
+  text-decoration: none;
+  height: 100%;
+}
+
+.gallery__link:hover {
+  cursor: zoom-in;
 }
