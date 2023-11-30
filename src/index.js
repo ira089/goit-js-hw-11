@@ -26,7 +26,8 @@ let gallery = new SimpleLightbox('.gallery a', settings);
 // -----------функция сабмита--------
 async function imagesSabmit(evt) {
   evt.preventDefault();
-  console.log('qw');
+  // console.log('qw');
+  caunter = 1;
   refs.loadMoreBtn.hidden = true;
   refs.endImg.classList.add('none-load-more');
   refs.containerImg.innerHTML = '';
@@ -53,14 +54,6 @@ async function imagesSabmit(evt) {
 
     gallery.refresh();
     lastPageCheck(imagesApi.totalHits);
-    // refs.loadMoreBtn.hidden = false;
-
-    // const { height: cardHeight } =
-    //   refs.containerImg.firstElementChild.getBoundingClientRect();
-    // window.scrollBy({
-    //   top: cardHeight * 2,
-    //   behavior: 'smooth',
-    // });
   } catch (err) {
     console.log(err);
   } finally {
@@ -95,12 +88,6 @@ async function onLoadMore() {
       top: cardHeight * 2,
       behavior: 'smooth',
     });
-    // console.log(Math.ceil(imagesApi.totalHits / 40));
-
-    // if (caunter === Math.ceil(imagesApi.totalHits / 40)) {
-    //   refs.loadMoreBtn.hidden = true;
-    //   refs.endImg.classList.remove('none-load-more');
-    // }
   } catch (err) {
     console.log(err);
   } finally {
